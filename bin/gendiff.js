@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 
 import { program } from 'commander'
+import { fileReader } from '../src/filereader.js'
 
 program
     .name('gendiff')
@@ -9,7 +10,9 @@ program
     .argument('<filepath1>', '')
     .argument('<filepath2>', '')
     .option('-f, --format [type]', 'output format')
-program.parse()
+    .action((filepath1, filepath2) => { console.log(`${filepath1} equal ${filepath2} => ${filepath1 == filepath2}`) })
+
+    program.parse()
 
 
 
