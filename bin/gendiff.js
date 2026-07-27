@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 import { program } from 'commander'
-import { fileReader } from '../src/filereader.js'
+import readFile from '../index.js'
 
 program
     .name('gendiff')
@@ -10,12 +10,8 @@ program
     .argument('<filepath1>', '')
     .argument('<filepath2>', '')
     .option('-f, --format [type]', 'output format')
-    .action((filepath1, filepath2) => { console.log(`${filepath1} equal ${filepath2} => ${filepath1 == filepath2}`) })
+    .action((filepath1, filepath2) => { console.log(`${filepath1} equal ${filepath2} => ${readFile(filepath1) == readFile(filepath2)}`) })
 
     program.parse()
 
 
-
-export default() => {
-
-}
