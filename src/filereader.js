@@ -1,7 +1,8 @@
 import fs from 'fs'
+import path from 'path'
 import _path from 'path'
 
-export default (path) => {
+const readFile = (path) => {
     const content = []
     let bytesRead
     try{
@@ -19,5 +20,35 @@ export default (path) => {
     
     return content.join('')
 }
+
+
+export default(path1, path2) => {
+    const difference = []
+    const text1 = readFile(path1)
+    const text2 = readFile(path2)
+    const json1 = JSON.parse(text1)
+    const json2 = JSON.parse(text2)
+    const merged = { ...json1, ...json2 }
+    for (let p in merged) {
+        if (Object.hasOwn(json1, p)) {
+            if (Object.hasOwn(json2, p)) {
+                if (json1[p] === json2[p]) {
+                    difference.push({ label: ' ', property: p, value: json1[p] })
+                }else{
+                    difference.push({ label: '-', property: p, value: json1[p] })
+                    difference.push({ label: '+', property: p, value:  json2[p] })
+                }
+            }else{
+                difference.push({ label: '+', property: p, value: json1[p] })
+            }
+        }else{
+            difference.push({ label: '+', property: p, value: json2[p] })
+        }
+    }
+    difference.sort((a, b) => a.property.localeCompare(b.property))
+
+    return '{\n' + difference.map(x=>`  ${x.label} ${x.property}: ${x.value}\n`).join('') + '}'
+}
+
 
 
