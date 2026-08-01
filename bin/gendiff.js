@@ -10,8 +10,11 @@ program
     .argument('<filepath1>', '')
     .argument('<filepath2>', '')
     .option('-f, --format [type]', 'output format')
-    .action((filepath1, filepath2) => { console.log(`${genDiff(filepath1, filepath2)}`) })
-
+    .action((filepath1, filepath2) => { 
+        console.log('{')
+        genDiff(filepath1, filepath2).map(x=>console.log(`  ${x.label} ${x.property}: ${x.value}`))
+        console.log('}')
+    })
     program.parse()
 
 

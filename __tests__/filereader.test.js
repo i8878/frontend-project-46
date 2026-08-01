@@ -9,5 +9,5 @@ beforeAll(() => {
 })
 
 test('non difference', () => {
-    expect(fileDiff(path1, path1)).toEqual({ "host": "hexlet.io", "timeout": 50, "proxy": "123.234.53.22", "follow": false })
+    expect(fileDiff(path1, path1)).toEqual([ "host: hexlet.io", "timeout: 50", "proxy: 123.234.53.22", "follow: false" ])
 })

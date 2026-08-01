@@ -47,8 +47,8 @@ export default(path1, path2) => {
     }
     difference.sort((a, b) => a.property.localeCompare(b.property))
 
-    return '{\n' + difference.map(x=>`  ${x.label} ${x.property}: ${x.value}\n`).join('') + '}'
-    //return difference.map(x=>`  ${x.label} ${x.property}: ${x.value}\n`)
+    //return '{\n' + difference.map(x=>`  ${x.label} ${x.property}: ${x.value}\n`).join('') + '}'
+    return difference //.map(x=>`${x.label} ${x.property}: ${x.value}\n`)
 }
 
 
