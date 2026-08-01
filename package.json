@@ -22,5 +22,11 @@
   "homepage": "https://github.com/i8878/frontend-project-46#readme",
   "dependencies": {
     "commander": "^15.0.0"
+  },
+  "devDependencies": {
+    "@eslint/create-config": "^2.0.0",
+    "@eslint/js": "^10.0.1",
+    "eslint": "^10.8.0",
+    "globals": "^17.8.0"
   }
 }
