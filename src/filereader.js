@@ -1,5 +1,4 @@
 import fs from 'fs'
-import path from 'path'
 import _path from 'path'
 
 const readFile = (path) => {
@@ -15,6 +14,7 @@ const readFile = (path) => {
         } while(bytesRead > 0)
         fs.closeSync(fd)
     }catch(e){
+        //throw new Error('Ошибка чтения файла')
         console.log('Error: ' + e)
     }
     
@@ -45,10 +45,8 @@ export default(path1, path2) => {
             difference.push({ label: '+', property: p, value: json2[p] })
         }
     }
-    difference.sort((a, b) => a.property.localeCompare(b.property))
-
-    //return '{\n' + difference.map(x=>`  ${x.label} ${x.property}: ${x.value}\n`).join('') + '}'
-    return difference //.map(x=>`${x.label} ${x.property}: ${x.value}\n`)
+    
+    return difference.sort((a, b) => a.property.localeCompare(b.property))
 }
 
 
