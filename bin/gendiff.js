@@ -12,7 +12,7 @@ program
     .option('-f, --format [type]', 'output format')
     .action((filepath1, filepath2) => { 
         console.log('{')
-        genDiff(filepath1, filepath2).map(x=>console.log(`  ${x.label} ${x.property}: ${x.value}`))
+        genDiff(filepath1, filepath2).forEach(x=>console.log(`  ${x.label} ${x.property}: ${x.value}`))
         console.log('}')
     })
     program.parse()
