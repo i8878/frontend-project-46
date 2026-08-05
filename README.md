@@ -4,4 +4,4 @@
 [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=i8878_frontend-project-46&metric=coverage)](https://sonarcloud.io/summary/new_code?id=i8878_frontend-project-46)
 
 ### Процесс:
-[![asciicast](https://asciinema.org/a/LN8fFQl3XWSAsOEY.svg)](https://asciinema.org/a/LN8fFQl3XWSAsOEY)
+[![asciicast](https://asciinema.org/a/UB6KVHL2aJdNB6sd.svg)](https://asciinema.org/a/UB6KVHL2aJdNB6sd)
