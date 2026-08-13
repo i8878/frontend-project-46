@@ -2,9 +2,10 @@ import { jsonParse, yamlParse } from './parsers.js'
 
 
 
-export default(path1, path2) => {
+export default(path1, path2, format) => {
     const replacer = ' '
-    const count = 3
+    const count = 2
+    const labels = { "not": ' ', "1>2": '-', "1<2": '+' }
     let _obj1
     let _obj2
     if (getFileExtension(path1) !== getFileExtension(path2)) {
@@ -26,35 +27,33 @@ export default(path1, path2) => {
                 if (Object.hasOwn(obj2, p)) {
                     if (obj1[p] === obj2[p]) {
                         difference.push({
-                            label: replacer.repeat(count * i + 1),
+                            label: `${replacer.repeat(count * i )}${labels['not']}`,
                             property: p,
                             value: obj1[p]
                         })
-                        console.log('1')
                     // Значение свойства первого объекта не равно значению второго объекта 
                     } else {
                         if (isObject(obj1[p]) && isObject(obj2[p])) {
                             difference.push({
-                                label: replacer.repeat(count * i + 1),
+                                label: `${replacer.repeat(count * i)}${labels['not']}`,
                                 property: p,
                                 value: iter(obj1[p], obj2[p], i + 1)
                             })
-                            console.log('2')
                         } else if (isObject(obj1[p])) {
                             difference.push({
-                                label: replacer.repeat(count * i + 1) + '-',
+                                label: `${replacer.repeat(count * i)}${labels['1>2']}`,
                                 property: p,
                                 value: iter(obj1[p], structuredClone(obj1[p]), i + 1)
                             })
                             difference.push({
-                                label: replacer.repeat(count * i + 1) + '+',
+                                label: `${replacer.repeat(count * i)}${labels['1<2']}`,
                                 property: p,
                                 value: obj2[p]
                             })
-                            console.log('3')
+
                         } else if (isObject(obj2[p])) {
                             difference.push({
-                                label: replacer.repeat(count * i + 1),
+                                label: `${replacer.repeat(count * i)}${labels['not']}`,
                                 property: p,
                                 value: iter(obj2[p], structuredClone(obj2[p]), i + 1)
                             })
@@ -62,53 +61,48 @@ export default(path1, path2) => {
                             // Значение рассматриваемого свойства не объект
                         } else {
                             difference.push({
-                                label: replacer.repeat(count * i) + '-',
+                                label: `${replacer.repeat(count * i)}${labels['1>2']}`,
                                 property: p,
                                 value: obj1[p]
                             })
                             difference.push({
-                                label: replacer.repeat(count * i) + '+',
+                                label: `${replacer.repeat(count * i)}${labels['1<2']}`,
                                 property: p,
                                 value: obj2[p]
                             })
-                            console.log('5')
                         }
                     }
                 // Свойство есть в первом объекте, но нет во втором
                 } else {
                     if(isObject(obj1[p])) {
                         difference.push({
-                            label: replacer.repeat(count * i) + '-',
+                            label: `${replacer.repeat(count * i)}${labels['1>2']}`,
                             property: p,
                             value: iter(obj1[p], structuredClone(obj1[p]), i + 1)
                         })
-                        console.log('6')
                     // Значение рассматриваемого свойста не объект
                     } else {
                         difference.push({
-                            label: replacer.repeat(count * i) + '-',
+                            label: `${replacer.repeat(count * i)}${labels['1>2']}`,
                             property: p,
                             value: obj1[p]
                         })
-                        console.log('7')
                     }
                 }
             // Свойство есть во втором объекте, но нет в первом
             } else {
                 if (isObject(obj2[p])) {
                     difference.push({
-                        label: replacer.repeat(count * i) + '+',
+                        label: `${replacer.repeat(count * i)}${labels['1<2']}`,
                         property: p,
                         value: iter(obj2[p], structuredClone(obj2[p]), i + 1)
                     })
-                    console.log('8')
                 } else {
                     difference.push({
-                        label: replacer.repeat(count * i) + '+',
+                        label: `${replacer.repeat(count * i)}${labels['1<2']}`,
                         property: p,
                         value: obj2[p]
                     })
-                    console.log('9')
                 }
             }
         }
@@ -116,12 +110,10 @@ export default(path1, path2) => {
         return difference.sort((a, b) => a.property.localeCompare(b.property)) 
     }
  
-    return formatter(iter(_obj1, _obj2, 1), )
+    return formatter(iter(_obj1, _obj2, 1), format)
 }
 
-
-const formatter = (diff, type = 'stylish') => {
-    
+const formatter = (diff, type) => {
     const printStylish = (diff, nested = false) => {
         console.log('{')
         for (let s of diff) {
@@ -135,9 +127,25 @@ const formatter = (diff, type = 'stylish') => {
         }
         if (!nested) console.log('}')
     }
+    const getStylish = (diff, nested = false) => {
+        const result = ['{']
+        for (let s of diff) {
+            if (Array.isArray(s.value)) {
+                result.push(`${s.label}${s.property}: ${getStylish(s.value, true)}`)
+                result.push(replaceCharAt(s.label, s.label.length - 1, ' }') )
+            } else {
+                result.push(`${s.label}${s.property}: ${s.value}`)            
+            }
+        }
+        if (!nested) result.push('}')
+        
+        return result.join('\n')
+    }
+
     switch (type) {
         case 'stylish': printStylish(diff) 
             break
+        case 'list': return getStylish(diff)
         case 'raw': 
         default: return diff
     }   

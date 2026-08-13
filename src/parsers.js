@@ -50,4 +50,4 @@ const yamlParse = (path) => {
 }
 
 
-export { jsonParse, yamlParse }
+export { jsonParse, yamlParse, readFile }
