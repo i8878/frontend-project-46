@@ -1,4 +1,4 @@
-import readFile from './src/filereader.js'
+import fileDiff from './src/filedifference.js'
 
 
-export default readFile
+export default fileDiff
