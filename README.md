@@ -5,3 +5,4 @@
 
 ### Процесс:
 [![asciicast](https://asciinema.org/a/UB6KVHL2aJdNB6sd.svg)](https://asciinema.org/a/UB6KVHL2aJdNB6sd)
+[![asciicast](https://asciinema.org/a/jcxysSCXkJAZVUTE.svg)](https://asciinema.org/a/jcxysSCXkJAZVUTE)
