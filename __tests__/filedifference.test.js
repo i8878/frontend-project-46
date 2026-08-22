@@ -1,5 +1,5 @@
 import fileDiff from '../src/filedifference.js'
-import { readFile, jsonParse } from '../src/parsers.js'
+import { readFile } from '../src/parsers.js'
 import { test, expect, beforeAll } from '@jest/globals'
 
 let path1
@@ -9,6 +9,7 @@ let path4
 let path5
 let path6
 let nondiff
+let nondiff_j
 let diff_s
 let diff_p
 let diff_j
