@@ -6,3 +6,4 @@
 ### Процесс:
 [![asciicast](https://asciinema.org/a/UB6KVHL2aJdNB6sd.svg)](https://asciinema.org/a/UB6KVHL2aJdNB6sd)
 [![asciicast](https://asciinema.org/a/jcxysSCXkJAZVUTE.svg)](https://asciinema.org/a/jcxysSCXkJAZVUTE)
+[![asciicast](https://asciinema.org/a/yX2KRsAQYH1MGZA2.svg)](https://asciinema.org/a/yX2KRsAQYH1MGZA2)

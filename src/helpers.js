@@ -11,4 +11,37 @@ const replaceCharAt = (text, index, char) => {
     }
 }
 
-export { getFileExtension, isObject, replaceCharAt }
+const group = (arr) => {
+    const group = {}
+        const iter = (arr, parent = '') => {
+            for (let s of arr) {
+                const key = `${parent}${parent.length > 0 ? '.' + s.property : s.property }`
+                if(Object.hasOwn(group, key)) {
+                    group[key].push({ label: s.label, value: s.value })
+                } else {
+                    group[key] = [{ label: s.label, value: s.value }]
+                }
+                if (Array.isArray(s.value)) iter(s.value, key)
+            }
+        }
+    
+    iter(arr)
+    return group
+}
+
+const formatValue = (value, w = '\'') => {
+    let result
+    if (Array.isArray(value)) { 
+        result = '[complex value]'
+    } else {
+        if( typeof value === 'string') {
+            result = w + value + w
+        } else {
+            result = value
+        }
+    }
+    return result
+}
+
+
+export { getFileExtension, isObject, replaceCharAt, group, formatValue }

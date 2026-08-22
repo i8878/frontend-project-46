@@ -1,5 +1,5 @@
 import { jsonParse, yamlParse } from './parsers.js'
-import formatter from '../formatters/index.js'
+import formatter from '../src/formatters/index.js'
 import { getFileExtension, isObject } from '../src/helpers.js'
 //import { styleText } from 'node:util'
 
