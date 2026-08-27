@@ -7,11 +7,11 @@ const getPlain = (diff) => {
         if (obj.value.length === 2) {
             str = `Property '${obj.key}' was updated. From ${formatValue(obj.value[0].value)} to ${formatValue(obj.value[1].value)}`
         } else {
-            switch (obj.value[0].label) {
-                case '+':
+            switch (obj.value[0].type) {
+                case '1<2':
                     str = `Property '${obj.key}' was added with value: ${formatValue(obj.value[0].value)}`
                     break
-                case '-':
+                case '1>2':
                     str = `Property '${obj.key}' was removed`
                     break
                 }   
@@ -25,8 +25,6 @@ const getPlain = (diff) => {
         
         return result.filter(x=> x.length > 0).join('\n')
 }
-
-
 
 
 export default getPlain

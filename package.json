@@ -8,7 +8,7 @@
     "gendiff": "bin/gendiff.js"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "vitest"
   },
   "repository": {
     "type": "git",
@@ -27,7 +27,9 @@
   "devDependencies": {
     "@eslint/create-config": "^2.0.0",
     "@eslint/js": "^10.0.1",
+    "@vitest/coverage-v8": "^4.1.11",
     "eslint": "^10.8.0",
-    "globals": "^17.8.0"
+    "globals": "^17.8.0",
+    "vitest": "^4.1.11"
   }
 }

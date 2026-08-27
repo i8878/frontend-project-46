@@ -17,9 +17,9 @@ const group = (arr) => {
             for (let s of arr) {
                 const key = `${parent}${parent.length > 0 ? '.' + s.property : s.property }`
                 if(Object.hasOwn(group, key)) {
-                    group[key].push({ label: s.label, value: s.value })
+                    group[key].push({ type: s.type, value: s.value })
                 } else {
-                    group[key] = [{ label: s.label, value: s.value }]
+                    group[key] = [{ type: s.type, value: s.value }]
                 }
                 if (Array.isArray(s.value)) iter(s.value, key)
             }
