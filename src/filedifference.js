@@ -6,7 +6,6 @@ import { getFileExtension, isObject } from '../src/helpers.js'
 export default(path1, path2, format) => {
     const replacer = ' '
     const count = 2
-    //const types = { "not": ' ', "1>2": '-', "1<2": '+' }
     let _obj1
     let _obj2
     
@@ -21,7 +20,7 @@ export default(path1, path2, format) => {
     if (getFileExtension(path2) === 'json') {
         _obj2 = jsonParse(path2)
     } else if (getFileExtension(path2) === 'yaml' || getFileExtension(path2) === 'yml') {
-        _obj2 = yamlParse(path1)
+        _obj2 = yamlParse(path2)
     } else {
         throw new Error(`Формат файла ${getFileExtension(path2)} не поддерживается`)
     }

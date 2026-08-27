@@ -14,21 +14,44 @@ const resultPlain = readFile(getFileName('diffPlain.txt'))
 const resultJson = readFile(getFileName('diffJson.txt'))
 
 
-test('compare json files format: stylish', () => {
-    expect(fileDiff(getFileName('file1.json'), getFileName('file2.json'), 'stylish')).toEqual(resultStylish)
+describe('test json files', () => {
+    test('compare files format: stylish', () => {
+        expect(fileDiff(getFileName('file1.json'), getFileName('file2.json'), 'stylish')).toEqual(resultStylish)
+    })
+
+    test('compare files format: plain', () => {
+        expect(fileDiff(getFileName('file1.json'), getFileName('file2.json'), 'plain')).toEqual(resultPlain)
+    })
+
+    test('compare files format: json', () => {
+        expect(fileDiff(getFileName('file1.json'), getFileName('file2.json'), 'json')).toEqual(resultJson)
+    })
+
+    test('compare two identical files', () => {
+        expect(fileDiff(getFileName('file1.json'), getFileName('file1.json'))).toBe('Файлы не имеют отличий')
+    })
 })
 
-test('compare json files format: plain', () => {
-    expect(fileDiff(getFileName('file1.json'), getFileName('file2.json'), 'plain')).toEqual(resultPlain)
+describe('test yaml files', () => {
+    test('compare files format: stylish', () => {
+        expect(fileDiff(getFileName('file1.yml'), getFileName('file2.yml'), 'stylish')).toEqual(resultStylish)
+    })
+
+    test('compare files format: plain', () => {
+        expect(fileDiff(getFileName('file1.yml'), getFileName('file2.yml'), 'plain')).toEqual(resultPlain)
+    })
+
+    test('compare files format: json', () => {
+        expect(fileDiff(getFileName('file1.yml'), getFileName('file2.yml'), 'json')).toEqual(resultJson)
+    })
+
+    test('compare identical files', () => {
+        expect(fileDiff(getFileName('file1.yml'), getFileName('file1.yml'))).toBe('Файлы не имеют отличий')
+    })
 })
 
-test('compare json files format: json', () => {
-    expect(fileDiff(getFileName('file1.json'), getFileName('file2.json'), 'json')).toEqual(resultJson)
-})
 
-test('compare two identical files', () => {
-    expect(fileDiff(getFileName('file1.json'), getFileName('file1.json'))).toBe('Файлы не имеют отличий')
-})
+
 
 describe('not supported files extension', () => {
     test('first file extension not supported', () => {
