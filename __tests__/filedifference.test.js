@@ -5,7 +5,7 @@ import path from 'path'
 
 
 const _dirname = path.basename(import.meta.dirname)
-const getFixtureName = (name) => path.join('/', _dirname , '..', '__fixtures__', name)
+const getFixtureName = (name) => path.resolve(_dirname , '..', '__fixtures__', name)
 
 const resultStylish = readFile(getFixtureName('diffStylish.txt'))
 const resultPlain = readFile(getFixtureName('diffPlain.txt'))
