@@ -9,11 +9,11 @@ const getStylish = (diff, settings) => {
         for (let s of diff) {
             if (Array.isArray(s.value)) {
                 
-                result.push(`${replacer.repeat(count * depth)}${labels[s.type]}${s.property}: ${iter(s.value, true)}`)
-                result.push(`${replacer.repeat(count * depth + 1)}}`)
+                result.push(`${replacer.repeat(count * depth)}${labels[s.type]} ${s.property}: ${iter(s.value, true)}`)
+                result.push(`${replacer.repeat(count * depth + 1)} }`)
                 
             } else {
-                result.push(`${replacer.repeat(count * depth)}${labels[s.type]}${s.property}: ${s.value}`)            
+                result.push(`${replacer.repeat(count * depth)}${labels[s.type]} ${s.property}: ${s.value}`)            
             }
         }    
         if (!nested) result.push('}')
