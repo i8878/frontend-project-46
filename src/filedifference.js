@@ -4,8 +4,6 @@ import { getFullName, isObject } from '../src/helpers.js'
 
 
 export default(path1, path2, format) => {
-    const replacer = ' '
-    const count = 2
     path1 = getFullName(path1)
     path2 = getFullName(path2)
     const _obj1 = parse(path1)
@@ -102,6 +100,6 @@ export default(path1, path2, format) => {
         return difference.sort((a, b) => a.property.localeCompare(b.property)) 
     }
  
-    return formatter(iter(_obj1, _obj2, 1), { type: format, replacer: replacer, count: count })
+    return formatter(iter(_obj1, _obj2, 1), format)
 }
 
