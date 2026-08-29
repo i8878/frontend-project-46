@@ -1,4 +1,4 @@
-import { group, formatValue } from '../helpers.js'
+import { formatValue } from '../helpers.js'
 
 const getPlain = (diff) => {
     const result = []
@@ -24,6 +24,24 @@ const getPlain = (diff) => {
         Object.keys(grouped).map(x=> result.push(getStr({ key: x, value: grouped[x]})))
         
         return result.filter(x=> x.length > 0).join('\n')
+}
+
+const group = (arr) => {
+    const group = {}
+        const iter = (arr, parent = '') => {
+            for (let s of arr) {
+                const key = `${parent}${parent.length > 0 ? '.' + s.property : s.property }`
+                if(Object.hasOwn(group, key)) {
+                    group[key].push({ type: s.type, value: s.value })
+                } else {
+                    group[key] = [{ type: s.type, value: s.value }]
+                }
+                if (Array.isArray(s.value)) iter(s.value, key)
+            }
+        }
+    
+    iter(arr)
+    return group
 }
 
 

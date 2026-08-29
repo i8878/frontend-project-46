@@ -1,33 +1,8 @@
-const getFileExtension = (path) => {
-    const reverse = path.split('').reverse().join('')
-    return  reverse.substring(0, reverse.indexOf('.')).trim('/').split('').reverse().join('')
-}
+import path, { extname } from "node:path"
+
 
 const isObject = (v) => typeof v === 'object' && v !== null
 
-const replaceCharAt = (text, index, char) => {
-    if ( index < text.length && index >= 0) {
-        return text.substring(0, index) + char + text.substring(index + 1)
-    }
-}
-
-const group = (arr) => {
-    const group = {}
-        const iter = (arr, parent = '') => {
-            for (let s of arr) {
-                const key = `${parent}${parent.length > 0 ? '.' + s.property : s.property }`
-                if(Object.hasOwn(group, key)) {
-                    group[key].push({ type: s.type, value: s.value })
-                } else {
-                    group[key] = [{ type: s.type, value: s.value }]
-                }
-                if (Array.isArray(s.value)) iter(s.value, key)
-            }
-        }
-    
-    iter(arr)
-    return group
-}
 
 const formatValue = (value, w = '\'') => {
     let result
@@ -43,5 +18,16 @@ const formatValue = (value, w = '\'') => {
     return result
 }
 
+const getFullName = (text) => {
+    let result
+    const dirs = text.split('/')
+    if (path.isAbsolute(text)) {
+        result = path.join('/', ...dirs) 
+    } else {
+        result = path.resolve(...dirs)
+    }
 
-export { getFileExtension, isObject, replaceCharAt, group, formatValue }
+    return result
+}
+ 
+export { isObject, formatValue, getFullName, extname } 

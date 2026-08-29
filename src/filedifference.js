@@ -1,32 +1,18 @@
-import { jsonParse, yamlParse } from './parsers.js'
+import parse from './parsers.js'
 import formatter from '../src/formatters/index.js'
-import { getFileExtension, isObject } from '../src/helpers.js'
+import { getFullName, isObject } from '../src/helpers.js'
 
 
 export default(path1, path2, format) => {
     const replacer = ' '
     const count = 2
-    let _obj1
-    let _obj2
+    path1 = getFullName(path1)
+    path2 = getFullName(path2)
+    const _obj1 = parse(path1)
+    const _obj2 = parse(path2)
     
-    if (getFileExtension(path1) === 'json') {
-        _obj1 = jsonParse(path1)
-    } else if (getFileExtension(path1) === 'yaml' || getFileExtension(path1) === 'yml') {
-        _obj1 = yamlParse(path1)
-    } else {
-        throw new Error(`Формат файла ${getFileExtension(path1)} не поддерживается`)
-    }
-    
-    if (getFileExtension(path2) === 'json') {
-        _obj2 = jsonParse(path2)
-    } else if (getFileExtension(path2) === 'yaml' || getFileExtension(path2) === 'yml') {
-        _obj2 = yamlParse(path2)
-    } else {
-        throw new Error(`Формат файла ${getFileExtension(path2)} не поддерживается`)
-    }
-
     if (JSON.stringify(_obj1) === JSON.stringify(_obj2) ) return 'Файлы не имеют отличий'
-    const iter = (obj1, obj2, i) => {
+    const iter = (obj1, obj2) => {
         const difference = []
         const merged = { ...obj1, ...obj2 }
         for (let p in merged) {
@@ -35,7 +21,6 @@ export default(path1, path2, format) => {
                     if (obj1[p] === obj2[p]) {
                         difference.push({
                             type: '1=2',
-                            depth: i,
                             property: p,
                             value: obj1[p]
                         })
@@ -44,20 +29,17 @@ export default(path1, path2, format) => {
                         if (isObject(obj1[p]) && isObject(obj2[p])) {
                             difference.push({
                                 type: '1=2',
-                                depth: i,
                                 property: p,
-                                value: iter(obj1[p], obj2[p], i + 1)
+                                value: iter(obj1[p], obj2[p])
                             })
                         } else if (isObject(obj1[p])) {
                             difference.push({
                                 type: '1>2',
-                                depth: i,
                                 property: p,
-                                value: iter(obj1[p], structuredClone(obj1[p]), i + 1)
+                                value: iter(obj1[p], structuredClone(obj1[p]))
                             })
                             difference.push({
                                 type: '1<2',
-                                depth: i,
                                 property: p,
                                 value: obj2[p]
                             })
@@ -65,21 +47,18 @@ export default(path1, path2, format) => {
                         } else if (isObject(obj2[p])) {
                             difference.push({
                                 type: '1=2',
-                                depth: i,
                                 property: p,
-                                value: iter(obj2[p], structuredClone(obj2[p]), i + 1)
+                                value: iter(obj2[p], structuredClone(obj2[p]))
                             })
                             // Значение рассматриваемого свойства - не объект
                         } else {
                             difference.push({
                                 type: '1>2',
-                                depth: i,
                                 property: p,
                                 value: obj1[p]
                             })
                             difference.push({
                                 type: '1<2',
-                                depth: i,
                                 property: p,
                                 value: obj2[p]
                             })
@@ -90,15 +69,13 @@ export default(path1, path2, format) => {
                     if(isObject(obj1[p])) {
                         difference.push({
                             type: '1>2',
-                            depth: i,
                             property: p,
-                            value: iter(obj1[p], structuredClone(obj1[p]), i + 1)
+                            value: iter(obj1[p], structuredClone(obj1[p]))
                         })
                     // Значение рассматриваемого свойста - не объект
                     } else {
                         difference.push({
                             type: '1>2',
-                            depth: i,
                             property: p,
                             value: obj1[p]
                         })
@@ -109,14 +86,12 @@ export default(path1, path2, format) => {
                 if (isObject(obj2[p])) {
                     difference.push({
                         type: '1<2',
-                        depth: i,
                         property: p,
-                        value: iter(obj2[p], structuredClone(obj2[p]), i + 1)
+                        value: iter(obj2[p], structuredClone(obj2[p]))
                     })
                 } else {
                     difference.push({
                         type: '1<2',
-                        depth: i,
                         property: p,
                         value: obj2[p]
                     })
@@ -129,3 +104,4 @@ export default(path1, path2, format) => {
  
     return formatter(iter(_obj1, _obj2, 1), { type: format, replacer: replacer, count: count })
 }
+
