@@ -44,7 +44,12 @@ export default(path1, path2, format) => {
 
                         } else if (isObject(obj2[p])) {
                             difference.push({
-                                type: '1=2',
+                                type: '1>2',
+                                property: p,
+                                value: obj1[p]
+                            })
+                            difference.push({
+                                type: '1<2',
                                 property: p,
                                 value: iter(obj2[p], structuredClone(obj2[p]))
                             })
