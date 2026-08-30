@@ -1,4 +1,4 @@
-
+//2, 6, 10, 14
 const getStylish = (diff) => {
     const replacer = ' '
     const count = 2
@@ -6,15 +6,14 @@ const getStylish = (diff) => {
     let depth = 0
     const iter = (diff, nested = false) => {
         const result = ['{']
-        depth++
+        depth = nested ? depth + 1 : depth
         for (let s of diff) {
             if (Array.isArray(s.value)) {
-                
-                result.push(`${replacer.repeat(count * depth + count)}${labels[s.type]} ${s.property}: ${iter(s.value, true)}`)
-                result.push(`${replacer.repeat(count * depth + count + count)}}`)
+                result.push(`${replacer.repeat(count + depth * (count + 2))}${labels[s.type]} ${s.property}: ${iter(s.value, true)}`)
+                result.push(`${replacer.repeat(count + (depth * 4) + 2)}}`)
                 
             } else {
-                result.push(`${replacer.repeat(count * depth + count)}${labels[s.type]} ${s.property}: ${s.value}`)            
+                result.push(`${replacer.repeat(count + depth * (count + 2))}${labels[s.type]} ${s.property}: ${s.value}`)            
             }
         }    
         if (!nested) result.push('}')
