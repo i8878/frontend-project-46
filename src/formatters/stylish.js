@@ -1,4 +1,3 @@
-//2, 6, 10, 14
 const getStylish = (diff) => {
     const replacer = ' '
     const count = 2
